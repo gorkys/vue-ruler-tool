@@ -322,10 +322,8 @@ export default {
 
 <style scoped>
   .ScaleBox {
-    /*position: fixed;*/
     left: 0;
     top: 0;
-    _position: absolute;
     z-index: 999;
     overflow: hidden;
     user-select: none;
