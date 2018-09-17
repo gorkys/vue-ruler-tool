@@ -34,7 +34,7 @@ export default {
     isScaleRevise: {
       type: Boolean, default: false
     }, // 刻度修正(根据content进行刻度重置)
-    topSpacing: {
+    /*topSpacing: {
       type: Number,
       default: 0,
       validator: function(val) {
@@ -47,7 +47,7 @@ export default {
       validator: function(val) {
         return val >= 0
       }
-    }, // 标尺与窗口左间距
+    }, // 标尺与窗口左间距*/
     presetLine: {
       type: Array,
       default: () => {
@@ -67,6 +67,8 @@ export default {
       windowHeight: 0, // 窗口高度
       xScale: [], // 水平刻度
       yScale: [], // 垂直刻度
+      topSpacing: 0, // 标尺与窗口上间距
+      leftSpacing: 0, //  标尺与窗口左间距
       isDrag: false,
       dragFlag: '', // 拖动开始标记，可能值x(从水平标尺开始拖动),y(从垂直标尺开始拖动)
       levelLineList: [], // 生成的水平线列表
@@ -130,6 +132,8 @@ export default {
       this.windowHeight = document.documentElement.clientHeight - this.topSpacing
       this.rulerWidth = document.getElementById('verticalRuler').clientWidth
       this.rulerHeight = document.getElementById('levelRuler').clientHeight
+      this.topSpacing = document.getElementById('levelRuler').offsetParent.offsetTop
+      this.leftSpacing =document.getElementById('verticalRuler').offsetParent.offsetLeft
     }, // 获取窗口宽与高
     scaleCalc() {
       for (let i = 0; i < this.windowWidth; i += 1) {
