@@ -84,7 +84,7 @@ export default {
 ```
 ~~**topSpacing**~~
 
-~~ 类型: `Number` ~~
+~~类型: `Number`~~
 
 ~~默认值: 0,~~
 
@@ -92,9 +92,9 @@ export default {
 
 ~~**leftSpacing**~~
 
-~~ 类型: `Number` ~~
+~~类型: `Number`~~
 
-~~ 默认值: `0` ~~
+~~默认值: `0`~~
 
 ~~标尺与窗口的左间距，如果你的`position`不为`fixed`，此项必填~~
 
