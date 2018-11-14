@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <vue-ruler-tool
-      :content-layout="{left:200,top:100}"
       :is-scale-revise="true"
       :preset-line="presetLine"
     >
@@ -32,6 +31,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 .test{
+  margin: 10px;
   width: 500px;
   height: 500px;
   background-color: #99a9bf;

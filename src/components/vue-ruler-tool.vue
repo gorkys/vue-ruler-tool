@@ -10,7 +10,7 @@
     <div id="verticalDottedLine" :style="{left:levelDottedLeft + 'px'}" class="RefDot_v"/>
     <div v-for="item in levelLineList" :id="item.id" :title="item.title" :style="{top:item.top+ 'px'}" :key="item.id" class="RefLine_h" @mousedown="dragLevelLine(item.id)"/>
     <div v-for="item in verticalLineList" :id="item.id" :title="item.title" :style="{left:item.left+ 'px'}" :key="item.id" class="RefLine_v" @mousedown="dragVerticalLine(item.id)"/>
-    <div id="content" :style="{left: contentLayout.left + 'px',top: contentLayout.top + 'px'}">
+    <div id="content" :style="{left: contentLayout.left + 'px',top: contentLayout.top + 'px'}" style="padding: 18px;">
       <slot />
     </div>
   </div>
@@ -34,20 +34,6 @@ export default {
     isScaleRevise: {
       type: Boolean, default: false
     }, // 刻度修正(根据content进行刻度重置)
-    /*topSpacing: {
-      type: Number,
-      default: 0,
-      validator: function(val) {
-        return val >= 0
-      }
-    }, // 标尺与窗口上间距
-    leftSpacing: {
-      type: Number,
-      default: 0,
-      validator: function(val) {
-        return val >= 0
-      }
-    }, // 标尺与窗口左间距*/
     presetLine: {
       type: Array,
       default: () => {
@@ -57,7 +43,7 @@ export default {
     contentLayout: {
       type: Object,
       default: () => {
-        return { top: 50, left: 50 }
+        return { top: 0, left: 0 }
       }
     } // 内容部分布局
   },
@@ -73,8 +59,8 @@ export default {
       dragFlag: '', // 拖动开始标记，可能值x(从水平标尺开始拖动),y(从垂直标尺开始拖动)
       levelLineList: [], // 生成的水平线列表
       verticalLineList: [], // 生成的垂直线列表
-      levelDottedLeft: 0, // 水平虚线位置
-      verticalDottedTop: 0, // 垂直虚线位置
+      levelDottedLeft: -999, // 水平虚线位置
+      verticalDottedTop: -999, // 垂直虚线位置
       rulerWidth: 0, // 垂直标尺的宽度
       rulerHeight: 0, // 水平标尺的高度
       dragLineId: '', // 被移动线的ID
@@ -110,9 +96,6 @@ export default {
       this.scaleCalc()
     },
     box() {
-      /* const rulerTool = document.getElementById('rulerTool')
-        this.windowWidth = rulerTool.offsetWidth
-        this.windowHeight = rulerTool.offsetHeight*/
       if (this.isScaleRevise) { // 根据内容部分进行刻度修正
         const content = document.getElementById('content')
         const contentLeft = content.offsetLeft
@@ -189,7 +172,7 @@ export default {
             this.levelLineList.push(
               {
                 id: 'levelLine' + this.levelLineList.length + 1,
-                title: $event.pageY + 1 - this.topSpacing + 'px',
+                title: $event.pageY + 1 - this.topSpacing -18 + 'px',
                 top: $event.pageY - this.topSpacing + 1
               }
             )
@@ -198,7 +181,7 @@ export default {
             this.verticalLineList.push(
               {
                 id: 'verticalLine' + this.verticalLineList.length + 1,
-                title: $event.pageX + 1 - this.leftSpacing + 'px',
+                title: $event.pageX + 1 - this.leftSpacing -18 + 'px',
                 left: $event.pageX - this.leftSpacing + 1
               }
             )
@@ -227,7 +210,7 @@ export default {
               })
               this.levelLineList.splice(Index, 1, {
                 id: id,
-                title: $event.pageY + 1 - this.topSpacing + 'px',
+                title: $event.pageY + 1 - this.topSpacing -18 + 'px',
                 top: $event.pageY - this.topSpacing + 1
               })
             }
@@ -256,7 +239,7 @@ export default {
               })
               this.verticalLineList.splice(Index, 1, {
                 id: id,
-                title: $event.pageX + 1 - this.leftSpacing + 'px',
+                title: $event.pageX + 2 - this.leftSpacing - 18 + 'px',
                 left: $event.pageX - this.leftSpacing + 1
               })
             }
@@ -340,12 +323,16 @@ export default {
   .ScaleRuler_h {
     width: 100%;
     height: 18px;
+    left:18px;
+    opacity: 0.6;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAASCAMAAAAuTX21AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFMzMzAAAA////BqjYlAAAACNJREFUeNpiYCAdMDKRCka1jGoBA2JZZGshiaCXFpIBQIABAAplBkCmQpujAAAAAElFTkSuQmCC) repeat-x;/*./image/ruler_h.png*/
   }
 
   .ScaleRuler_v {
     width: 18px;
     height: 100%;
+    top:18px;
+    opacity: 0.6;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAyCAMAAABmvHtTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFMzMzAAAA////BqjYlAAAACBJREFUeNpiYGBEBwwMTGiAakI0NX7U9aOuHyGuBwgwAH6bBkAR6jkzAAAAAElFTkSuQmCC) repeat-y; /*./image/ruler_v.png*/
   }
 

@@ -82,21 +82,6 @@ export default {
 ```
 <vue-ruler-tool :is-scale-revise="ture" >
 ```
-~~**topSpacing**~~
-
-~~类型: `Number`~~
-
-~~默认值: 0,~~
-
-~~标尺与窗口的上间距，如果你的`position`不为`fixed`，此项必填~~
-
-~~**leftSpacing**~~
-
-~~类型: `Number`~~
-
-~~默认值: `0`~~
-
-~~标尺与窗口的左间距，如果你的`position`不为`fixed`，此项必填~~
 
 **presetLine**
 
@@ -114,7 +99,7 @@ export default {
 
 类型: `Object`
 
-默认值: `{ top: 50, left: 50 }`
+默认值: `{ top: 0, left: 0 }`
 
 内容部分布局分布，及内容摆放位置
 ```
