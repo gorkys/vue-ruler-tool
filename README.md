@@ -50,6 +50,16 @@ export default {
 </script>
 ```
 ### Props
+**parent**
+
+类型:`Boolean`
+
+默认值: `false`
+
+限制组件大小在父级内部
+```
+<vue-ruler-tool :parent="true" >
+```
 **position**
 
 类型:`String`
@@ -70,7 +80,7 @@ export default {
 
 快捷键键开关，目前仅支持快捷键`R`标尺显示开关
 ```
-<vue-ruler-tool :is-hot-key="ture" >
+<vue-ruler-tool :is-hot-key="true" >
 ```
 **isScaleRevise**
 

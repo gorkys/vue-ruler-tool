@@ -1,5 +1,5 @@
 <template>
-  <div v-if="rulerToggle" id="rulerTool" :style="{width : windowWidth + 'px',height : windowHeight + 'px',position:position}" class="ScaleBox" onselectstart="return false;">
+  <div v-show="rulerToggle" id="rulerTool" :style="{width : windowWidth + 'px',height : windowHeight + 'px',position:position}" class="ScaleBox" onselectstart="return false;">
     <div id="levelRuler" class="ScaleRuler_h" @mousedown.stop="levelDragRuler">
       <span v-for="(item,index) in xScale" :key="index" :style="{left:index * 50 + 2 + 'px'}" class="n">{{ item.id }}</span>
     </div>
@@ -45,7 +45,11 @@ export default {
       default: () => {
         return { top: 0, left: 0 }
       }
-    } // 内容部分布局
+    }, // 内容部分布局
+    parent: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -111,8 +115,14 @@ export default {
           }
         }
       }
-      this.windowWidth = document.documentElement.clientWidth - this.leftSpacing
-      this.windowHeight = document.documentElement.clientHeight - this.topSpacing
+      if(this.parent){
+        const style = window.getComputedStyle(this.$el.parentNode,null)
+        this.windowWidth = parseInt(style.getPropertyValue('width'), 10)
+        this.windowHeight = parseInt(style.getPropertyValue('height'), 10)
+      }else {
+        this.windowWidth = document.documentElement.clientWidth - this.leftSpacing
+        this.windowHeight = document.documentElement.clientHeight - this.topSpacing
+      }
       this.rulerWidth = document.getElementById('verticalRuler').clientWidth
       this.rulerHeight = document.getElementById('levelRuler').clientHeight
       this.topSpacing = document.getElementById('levelRuler').offsetParent.offsetTop

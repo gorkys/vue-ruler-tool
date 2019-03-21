@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <vue-ruler-tool
-      :is-scale-revise="true"
-      :preset-line="presetLine"
-    >
-      <div class="test"></div>
-    </vue-ruler-tool>
+    <section style="margin: 50px;padding: 50px;border: 1px solid red;height: 600px;">
+      <vue-ruler-tool
+        :parent="true"
+        :is-scale-revise="true"
+        :preset-line="presetLine"
+      >
+        <div class="test"></div>
+      </vue-ruler-tool>
+    </section>
   </div>
 </template>
 
