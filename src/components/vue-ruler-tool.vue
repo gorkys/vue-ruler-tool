@@ -125,8 +125,8 @@ export default {
       }
       this.rulerWidth = document.getElementById('verticalRuler').clientWidth
       this.rulerHeight = document.getElementById('levelRuler').clientHeight
-      this.topSpacing = document.getElementById('levelRuler').offsetParent.offsetTop
-      this.leftSpacing =document.getElementById('verticalRuler').offsetParent.offsetLeft
+      this.topSpacing = document.getElementById('levelRuler').getBoundingClientRect().y //.offsetParent.offsetTop
+      this.leftSpacing =document.getElementById('verticalRuler').getBoundingClientRect().x// .offsetParent.offsetLeft
     }, // 获取窗口宽与高
     scaleCalc() {
       for (let i = 0; i < this.windowWidth; i += 1) {
