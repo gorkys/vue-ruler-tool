@@ -6,7 +6,7 @@
         :is-scale-revise="true"
         :preset-line="presetLine"
       >
-        <div class="test"></div>
+        <img src="https://cn.vuejs.org/images/logo.png" style="width: 300px;height: 300px;margin: 100px;" alt="">
       </vue-ruler-tool>
     </section>
   </div>
@@ -21,7 +21,7 @@ export default {
   },
   data () {
     return {
-      presetLine: [{ type: 'l', site: 100 }, { type: 'v', site: 200 }]
+      presetLine: [{ type: 'l', site: 200 }, { type: 'v', site: 100 }]
     }
   }
 }
@@ -32,11 +32,5 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-.test{
-  margin: 10px;
-  width: 500px;
-  height: 500px;
-  background-color: #99a9bf;
 }
 </style>

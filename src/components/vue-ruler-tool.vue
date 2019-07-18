@@ -53,6 +53,7 @@ export default {
   },
   data() {
     return {
+      size: 17,
       windowWidth: 0, // 窗口宽度
       windowHeight: 0, // 窗口高度
       xScale: [], // 水平刻度
@@ -182,8 +183,8 @@ export default {
             this.levelLineList.push(
               {
                 id: 'levelLine' + this.levelLineList.length + 1,
-                title: $event.pageY + 1 - this.topSpacing -18 + 'px',
-                top: $event.pageY - this.topSpacing + 1
+                title: $event.pageY - this.topSpacing - this.size + 'px',
+                top: $event.pageY - this.topSpacing
               }
             )
             break
@@ -191,8 +192,8 @@ export default {
             this.verticalLineList.push(
               {
                 id: 'verticalLine' + this.verticalLineList.length + 1,
-                title: $event.pageX + 1 - this.leftSpacing -18 + 'px',
-                left: $event.pageX - this.leftSpacing + 1
+                title: $event.pageX - this.leftSpacing - this.size + 'px',
+                left: $event.pageX - this.leftSpacing
               }
             )
             break
@@ -220,8 +221,8 @@ export default {
               })
               this.levelLineList.splice(Index, 1, {
                 id: id,
-                title: $event.pageY + 1 - this.topSpacing -18 + 'px',
-                top: $event.pageY - this.topSpacing + 1
+                title: $event.pageY - this.topSpacing - this.size + 'px',
+                top: $event.pageY - this.topSpacing
               })
             }
             break
@@ -249,8 +250,8 @@ export default {
               })
               this.verticalLineList.splice(Index, 1, {
                 id: id,
-                title: $event.pageX + 2 - this.leftSpacing - 18 + 'px',
-                left: $event.pageX - this.leftSpacing + 1
+                title: $event.pageX - this.leftSpacing - this.size + 'px',
+                left: $event.pageX - this.leftSpacing
               })
             }
             break
@@ -293,14 +294,14 @@ export default {
               this.levelLineList.push({
                 id: 'levelLine' + this.levelLineList.length + 1,
                 title: item.site + 'px',
-                top: item.site
+                top: item.site + this.size
               })
               break
             case 'v':
               this.verticalLineList.push({
                 id: 'verticalLine' + this.verticalLineList.length + 1,
                 title: item.site + 'px',
-                left: item.site
+                left: item.site + this.size
               })
               break
             default:
