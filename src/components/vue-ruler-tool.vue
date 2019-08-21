@@ -126,9 +126,12 @@ export default {
       }
       this.rulerWidth = document.getElementById('verticalRuler').clientWidth
       this.rulerHeight = document.getElementById('levelRuler').clientHeight
+      this.setSpacing()
+    }, // 获取窗口宽与高
+    setSpacing() {
       this.topSpacing = document.getElementById('levelRuler').getBoundingClientRect().y //.offsetParent.offsetTop
       this.leftSpacing =document.getElementById('verticalRuler').getBoundingClientRect().x// .offsetParent.offsetLeft
-    }, // 获取窗口宽与高
+    },
     scaleCalc() {
       for (let i = 0; i < this.windowWidth; i += 1) {
         if (i % 50 === 0) {
@@ -150,6 +153,7 @@ export default {
       this.dragFlag = 'y'
     }, // 生成一个垂直参考线
     dottedLineMove($event) {
+      this.setSpacing()
       switch (this.dragFlag) {
         case 'x':
           if (this.isDrag) {
@@ -176,6 +180,7 @@ export default {
       }
     }, // 虚线移动
     dottedLineUp($event) {
+      this.setSpacing()
       if (this.isDrag) {
         this.isDrag = false
         switch (this.dragFlag) {
