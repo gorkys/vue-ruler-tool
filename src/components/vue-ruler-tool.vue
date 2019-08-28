@@ -72,8 +72,6 @@ export default {
       rulerWidth: 0, // 垂直标尺的宽度
       rulerHeight: 0, // 水平标尺的高度
       dragLineId: '', // 被移动线的ID
-      contentLayout_left: this.contentLayout.left,
-      contentLayout_top: this.contentLayout.top,
       keyCode: {
         r: 82
       }, // 快捷键参数
