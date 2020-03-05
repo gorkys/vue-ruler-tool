@@ -27,7 +27,7 @@ Vue.component('vue-ruler-tool', VueRulerTool)
     <vue-ruler-tool
       :content-layout="{left:200,top:100}"
       :is-scale-revise="true"
-      :preset-line="presetLine"
+      :v-model="presetLine"
     >
       <div class="test"></div>
     </vue-ruler-tool>
