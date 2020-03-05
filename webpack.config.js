@@ -2,8 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
- /* entry: './src/main.js', // 本地使用*/
-  entry: './src/index.js', // 打包使用
+  entry: process.env.NODE_ENV === 'production' ? './src/index.js' : './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
