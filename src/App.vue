@@ -5,9 +5,10 @@
     <button @click="presetLine = [{ type: 'h', site: 100 }, { type: 'v', site: 200 }]">修改</button>
     <section style="margin: 50px;padding: 50px;border: 1px solid red;height: 600px;">
       <vue-ruler-tool
+        v-model="presetLine"
+        :step-length="20"
         :parent="true"
         :is-scale-revise="true"
-        v-model="presetLine"
         :visible.sync="visible"
       >
         <img src="https://cn.vuejs.org/images/logo.png" style="width: 300px;height: 300px;margin: 100px;" alt="">

@@ -62,7 +62,16 @@ export default {
     visible: {
       type: Boolean,
       default: true
-    }
+    },
+    stepLength: {
+      type: Number,
+      default: 50,
+      validator: (val) => {
+        if(typeof val === 'number' && val % 10){
+          return 50
+        }
+      }
+    } // 步长
   },
   data () {
     return {
@@ -111,7 +120,7 @@ export default {
           id: `${item.type}_${isH ? hCount++ : vCount++}`,
           type: item.type,
           title: item.site + 'px',
-          [isH ? 'top' : 'left']: item.site + this.size
+          [isH ? 'top' : 'left']: item.site / (this.stepLength / 50) + this.size
         }
       })
     }
@@ -147,7 +156,7 @@ export default {
       this.scaleCalc()
     },
     getLineStyle({type, top, left}) {
-      return type === 'h' ? {top: top+ 'px'} : {left: left + 'px'}
+      return type === 'h' ? {top: top + 'px'} : {left: left + 'px'}
     },
     handleDragLine({type, id}) {
       return type === 'h' ? this.dragHorizontalLine(id) : this.dragVerticalLine(id)
@@ -157,16 +166,9 @@ export default {
         const content = this.$refs.content
         const contentLeft = content.offsetLeft
         const contentTop = content.offsetTop
-        for (let i = 0; i < contentLeft; i += 1) {
-          if (i % 50 === 0 && i + 50 <= contentLeft) {
-            this.xScale.push({ id: i })
-          }
-        }
-        for (let i = 0; i < contentTop; i += 1) {
-          if (i % 50 === 0 && i + 50 <= contentTop) {
-            this.yScale.push({ id: i })
-          }
-        }
+
+        this.getCalcRevise(this.xScale, contentLeft)
+        this.getCalcRevise(this.yScale, contentTop)
       }
       if (this.parent) {
         const style = window.getComputedStyle(this.$el.parentNode, null)
@@ -185,25 +187,27 @@ export default {
       this.leftSpacing = this.$refs.verticalRuler.getBoundingClientRect().x// .offsetParent.offsetLeft
     },
     scaleCalc () {
-      for (let i = 0; i < this.windowWidth; i += 1) {
-        if (i % 50 === 0) {
-          this.xScale.push({ id: i })
-        }
-      }
-      for (let i = 0; i < this.windowHeight; i += 1) {
-        if (i % 50 === 0) {
-          this.yScale.push({ id: i })
-        }
-      }
+      this.getCalc(this.xScale, this.windowWidth)
+      this.getCalc(this.yScale, this.windowHeight)
     }, // 计算刻度
-    newHorizontalLine () {
+    getCalc (array,length) {
+      for (let i = 0; i < length * this.stepLength / 50; i += this.stepLength) {
+        if (i % this.stepLength === 0) {
+          array.push({ id: i })
+        }
+      }
+    }, // 获取刻度方法
+    getCalcRevise (array,length) {
+      for (let i = 0; i < length; i += 1) {
+        if (i % this.stepLength === 0 && i + this.stepLength <= length) {
+          array.push({ id: i })
+        }
+      }
+    }, // 获取矫正刻度方法
+    newLine (val) {
       this.isDrag = true
-      this.dragFlag = 'x'
-    }, // 生成一个水平参考线
-    newVerticalLine () {
-      this.isDrag = true
-      this.dragFlag = 'y'
-    }, // 生成一个垂直参考线
+      this.dragFlag = val
+    }, // 生成一个参考线
     dottedLineMove ($event) {
       this.setSpacing()
       switch (this.dragFlag) {
@@ -240,71 +244,23 @@ export default {
           case 'x':
             cloneList.push({
               type: 'h',
-              site: $event.pageY - this.topSpacing - this.size
+              site: ($event.pageY - this.topSpacing - this.size) * (this.stepLength / 50)
             })
             this.$emit('input', cloneList)
             break
           case 'y':
             cloneList.push({
               type: 'v',
-              site: $event.pageX - this.leftSpacing - this.size
+              site: ($event.pageX - this.leftSpacing - this.size) * (this.stepLength / 50)
             })
             this.$emit('input', cloneList)
             break
           case 'h':
-            if ($event.pageY - this.topSpacing < this.rulerHeight) {
-              let Index, id
-              this.lineList.forEach((item, index) => {
-                if (item.id === this.dragLineId) {
-                  Index = index
-                  id = item.id
-                }
-              })
-              cloneList.splice(Index, 1, {
-                type: 'h',
-                site: -600
-              })
-            } else {
-              let Index, id
-              this.lineList.forEach((item, index) => {
-                if (item.id === this.dragLineId) {
-                  Index = index
-                  id = item.id
-                }
-              })
-              cloneList.splice(Index, 1, {
-                type: 'h',
-                site: $event.pageY - this.topSpacing - this.size
-              })
-            }
+            this.dragCalc(cloneList, $event.pageY, this.topSpacing, this.rulerHeight,'h')
             this.$emit('input', cloneList)
             break
           case 'v':
-            if ($event.pageX - this.leftSpacing < this.rulerWidth) {
-              let Index, id
-              this.lineList.forEach((item, index) => {
-                if (item.id === this.dragLineId) {
-                  Index = index
-                  id = item.id
-                }
-              })
-              cloneList.splice(Index, 1, {
-                type: 'v',
-                site: -600
-              })
-            } else {
-              let Index, id
-              this.lineList.forEach((item, index) => {
-                if (item.id === this.dragLineId) {
-                  Index = index
-                  id = item.id
-                }
-              })
-              cloneList.splice(Index, 1, {
-                type: 'v',
-                site: $event.pageX - this.leftSpacing - this.size
-              })
-            }
+            this.dragCalc(cloneList, $event.pageX, this.leftSpacing, this.rulerWidth,'v')
             this.$emit('input', cloneList)
             break
           default:
@@ -313,11 +269,38 @@ export default {
         this.verticalDottedTop = this.horizontalDottedLeft = -10
       }
     }, // 虚线松开
+    dragCalc (list, page, spacing, ruler, type) {
+      if (page - spacing < ruler) {
+        let Index, id
+        this.lineList.forEach((item, index) => {
+          if (item.id === this.dragLineId) {
+            Index = index
+            id = item.id
+          }
+        })
+        list.splice(Index, 1, {
+          type: type,
+          site: -600
+        })
+      } else {
+        let Index, id
+        this.lineList.forEach((item, index) => {
+          if (item.id === this.dragLineId) {
+            Index = index
+            id = item.id
+          }
+        })
+        list.splice(Index, 1, {
+          type: type,
+          site: (page - spacing - this.size) * (this.stepLength / 50)
+        })
+      }
+    },
     horizontalDragRuler () {
-      this.newHorizontalLine()
+      this.newLine('x')
     }, // 水平标尺处按下鼠标
     verticalDragRuler () {
-      this.newVerticalLine()
+      this.newLine('y')
     }, // 垂直标尺处按下鼠标
     dragHorizontalLine (id) {
       this.isDrag = true

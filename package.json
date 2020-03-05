@@ -1,7 +1,7 @@
 {
   "name": "vue-ruler-tool",
   "description": "vue标尺辅助线",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "gorkys",
   "license": "MIT",
   "main": "dist/index.js",

@@ -130,6 +130,16 @@ data() {
 ```
 <vue-ruler-tool :content-layout="{left:200,top:100}" >
 ```
+**stepLength**
+
+类型: `Number`
+
+默认值: `50`
+
+步长设置(10的倍数)
+```
+<vue-ruler-tool :step-length="100" >
+```
 ### Methods
 
 **quickGeneration**
