@@ -66,11 +66,7 @@ export default {
     stepLength: {
       type: Number,
       default: 50,
-      validator: (val) => {
-        if(typeof val === 'number' && val % 10){
-          return 50
-        }
-      }
+      validator: (val) => val % 10 === 0
     } // 步长
   },
   data () {
