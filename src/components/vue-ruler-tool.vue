@@ -115,7 +115,7 @@ export default {
         return {
           id: `${item.type}_${isH ? hCount++ : vCount++}`,
           type: item.type,
-          title: item.site + 'px',
+          title: item.site.toFixed(2) + 'px',
           [isH ? 'top' : 'left']: item.site / (this.stepLength / 50) + this.size
         }
       })
@@ -134,22 +134,23 @@ export default {
     on(document, 'mouseup', this.dottedLineUp)
     on(document, 'keyup', this.keyboard)
     this.init()
-    const self = this // 绑定窗口调整大小onresize事件
-    window.onresize = function () { // 如果直接使用this,this指向的不是vue实例
-      self.xScale = []
-      self.yScale = []
-      self.init()
-    }
+    on(window, 'resize', this.windowResize)
   },
   beforeDestroy () {
     off(document, 'mousemove', this.dottedLineMove)
     off(document, 'mouseup', this.dottedLineUp)
     off(document, 'keyup', this.keyboard)
+    off(window, 'resize', this.windowResize)
   },
   methods: {
     init () {
       this.box()
       this.scaleCalc()
+    },
+    windowResize() {
+      this.xScale = []
+      this.yScale = []
+      this.init()
     },
     getLineStyle({type, top, left}) {
       return type === 'h' ? {top: top + 'px'} : {left: left + 'px'}
