@@ -105,8 +105,8 @@ export default {
   computed: {
     wrapperStyle() {
       return {
-        width : this.width || this.windowWidth + 'px',
-        height : this.height || this.windowHeight + 'px',
+        width: (this.width || this.windowWidth) + 'px',
+        height: (this.height || this.windowHeight) + 'px',
         position: this.position
       }
     },
