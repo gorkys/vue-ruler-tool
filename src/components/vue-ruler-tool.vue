@@ -30,6 +30,16 @@ export default {
   name: 'VRuler',
   components: {},
   props: {
+    // 自定义宽度和高度
+    width: {
+      type: Number,
+      default: 0
+    },
+    height: {
+      type: Number,
+      default: 0
+    },
+    // 宽度
     position: {
       type: String,
       default: 'relative',
@@ -95,8 +105,8 @@ export default {
   computed: {
     wrapperStyle() {
       return {
-        width : this.windowWidth + 'px',
-        height : this.windowHeight + 'px',
+        width: (this.width || this.windowWidth) + 'px',
+        height: (this.height || this.windowHeight) + 'px',
         position: this.position
       }
     },
@@ -184,8 +194,8 @@ export default {
       this.leftSpacing = this.$refs.verticalRuler.getBoundingClientRect().x// .offsetParent.offsetLeft
     },
     scaleCalc () {
-      this.getCalc(this.xScale, this.windowWidth)
-      this.getCalc(this.yScale, this.windowHeight)
+      this.getCalc(this.xScale, this.width || this.windowWidth)
+      this.getCalc(this.yScale, this.width || this.windowHeight)
     }, // 计算刻度
     getCalc (array,length) {
       for (let i = 0; i < length * this.stepLength / 50; i += this.stepLength) {
